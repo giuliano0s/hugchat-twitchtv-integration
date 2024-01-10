@@ -3,6 +3,7 @@ from hugchat.login import Login
 
 import time
 from datetime import date
+import os
 
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -17,7 +18,7 @@ translator = Translator()
 
 #%%######################################## PROMPTS #%%########################################%%
 class Chatbot:
-    def __init__(self, botIdName, botName, fileName, streamId, pronouns, utils_class, mainUser, email, password):
+    def __init__(self, botIdName, botName, fileName, streamId, pronouns, utils_class, mainUser, email, first_use, password=''):
         self.botIdName = botIdName
         self.botName = botName
         self.streamId = streamId
@@ -30,9 +31,9 @@ class Chatbot:
         characterPromptPath = f"Utils\characters\{fileName}"
         self.characterPrompt = open(characterPromptPath, 'r').read()
 
-        self.start_bot()
+        self.start_bot(first_use)
 
-    def start_bot(self, first=False):
+    def start_bot(self, first):
         if first:
             sign = Login(self.email, self.password)
             cookies = sign.login()
@@ -82,21 +83,16 @@ class Chatbot:
             return output
         else:
             return output
-        
-    def check_pronouns(self, output):
-        output = str(self.chatbot.chat(f'Envie apenas a resposta sem introducoes. Mantenha o idioma da mensagem em {self.language}. Se o autor da mensagem é do sexo {self.pronouns}, não faça nada. Mas se não for, mude seus pronomes para que seja do sexo {self.pronouns}: ' + output))
-        #output = translator.translate(output, src='en', dest=self.language).text
-
-        return output
 
     
 #%%######################################## Utils #%%########################################%%
 class Utils:
-    def __init__(self, language):
+    def __init__(self, language, profile_name='Profile 4'):
+        user = os.getlogin()
         service = Service(ChromeDriverManager().install())
         options = webdriver.ChromeOptions()
-        options.add_argument("user-data-dir=C:\\Users\\User\\AppData\\Local\\Google\\Chrome\\User Data")
-        options.add_argument("profile-directory=Profile 4")
+        options.add_argument(f"user-data-dir=C:\\Users\\{user}\\AppData\\Local\\Google\\Chrome\\User Data")
+        options.add_argument(f"profile-directory={profile_name}")
 
         self.browser = webdriver.Firefox(options=options, service=service)
         self.browser.set_window_size(1280, 720)
