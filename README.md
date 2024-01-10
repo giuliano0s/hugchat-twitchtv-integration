@@ -15,10 +15,8 @@ Simples integração entre o HugginChat (IA Generativa) e a plataforma de livest
   - botName = nome de interpretação do bot
   - fileName = arquivo de texto da engenharia de prompt
   - streamId = nome de usuário da livestream/chat a ser utilizada
-  - pronouns = gênero do bot (não utilizado atualmente)
-  - mainUser = usuário que controlará o bot
   - email = seu email no site da HuggingFace
-  - first_use = a senha só é necessária no primeiro uso, depois serão utilizado cookies
+  - first_use = a senha só é necessária no primeiro uso, depois serão utilizados cookies
   - password = sua senha no site da HuggingFace
  
 ## Engenharia de prompt
